@@ -37,6 +37,17 @@ public class texasHoldEm{
     private static int comp6chips = 0;
     private static int comp7chips = 0;
     private static int comp8chips = 0;
+    private static boolean play1Folded = false;
+    private static boolean comp1Folded = false;
+    private static boolean comp2Folded = false;
+    private static boolean comp3Folded = false;
+    private static boolean comp4Folded = false;
+    private static boolean comp5Folded = false;
+    private static boolean comp6Folded = false;
+    private static boolean comp7Folded = false;
+    private static boolean comp8Folded = false;
+    private static boolean preFlop = true;
+    private static int currentCallAmnt = 0;
     private static String comp1name = null;
     private static String comp2name = null;
     private static String comp3name = null;
@@ -46,11 +57,12 @@ public class texasHoldEm{
     private static String comp7name = null;
     private static String comp8name = null;
     private static String uName = null;
+    private static int pot = 0;
     //private static Users user = new Users(uName);
     public static void main(String args[]) throws InterruptedException, IOException{
-        play();
+        deal();
     }
-    public static void play() throws InterruptedException, IOException{
+    public static void deal() throws InterruptedException, IOException{
         //new ProcessBuilder("cmd","/c","cls").inheritIO().start().waitFor();
         deck.shuffleDeck();
         currentPlayer = 1;
@@ -65,40 +77,89 @@ public class texasHoldEm{
             comp7.addCard(deck);
             comp8.addCard(deck);
         }
-        System.out.println();
-        System.out.println("Play1");
-        System.out.println();
-        printHand(play1);
-        System.out.println();
-        System.out.println("Comp1");
-        printHand(comp1);
-        System.out.println();
-        System.out.println("Comp2");
-        printHand(comp2);
-        System.out.println();
-        System.out.println("Comp3");
-        printHand(comp3);
-        System.out.println();
-        System.out.println("Comp4");
-        printHand(comp4);
-        System.out.println();
-        System.out.println("Comp5");
-        printHand(comp5);
-        System.out.println();
-        System.out.println("Comp6");
-        printHand(comp6);
-        System.out.println();
-        System.out.println("Comp7");
-        printHand(comp7);
-        System.out.println();
-        System.out.println("Comp8");
-        printHand(comp8);
+        play1chips = 1000;
+        comp1chips = 1000;
+        comp2chips = 1000;
+        comp3chips = 1000;
+        comp4chips = 1000;
+        comp5chips = 1000;
+        comp6chips = 1000;
+        comp7chips = 1000;
+        comp8chips = 1000;//all of these amounts are liable to change. this is for testing purposes.
+        play();
+
+    }
+    public static void play() throws IOException, InterruptedException{
+        //this is the part i keep gettting stuck at. thats why i procrastinate on mastodon.
+        //im gonna leave that comment too.
+        currentPlayer = 1; //I'm always gonna do this at the start of a new hand. for now anyway. eventually il add the whole dealer/big blind thing
+        while(currentPlayer == 1){
+            printHand(play1);
+            System.out.println();
+            boolean isFolded = play1.checkFold();
+            if(isFolded){
+                getNextPlayer();
+            }else if(preFlop){
+                currentCallAmnt = 50;//im going to change this amount later. see i did change that amount later. starting blinds 50/100
+                System.out.print("1. Call ($" + currentCallAmnt + ")");
+                System.out.print("        2. Raise"); //to do: add raise method
+                System.out.println("        3. Fold"); //to do: add fold method.
+                int choice = si.nextInt();
+                if(choice == 1){
+                    System.out.println("Player 1 calls");
+                    pot = pot + 50;
+                    play1chips = play1chips - 50;
+                }else if(choice == 2){
+                    int raiseamnt = raise();
+                    pot = pot + raiseamnt;
+                    play1chips = play1chips - raiseamnt;
+                    if(play1chips == 0){
+                        System.out.println("Player 1 goes all-in");
+                    }else{
+                        System.out.println("Player 1 raises to $" + raiseamnt);
+                    }
+                    currentCallAmnt = raiseamnt;
+                }else if(choice == 3){
+                    play1.setFolded(true);
+                    System.out.println("Player 1 folds");
+                }
+                getNextPlayer();
+            }
+        }
+    }
+    private static int raise(){
+        System.out.println("Current Pot: $" + pot + "         Current Chips in Hand: $" + play1chips);
+        System.out.println("Amount to raise: ");
+        int raiseamnt = si.nextInt();
+        if(raiseamnt > play1chips){
+            System.out.println("Please enter in an amount less than or equal to " + play1chips);
+            raise();
+        }else {
+            System.out.println("Confirm raise to $" + raiseamnt + "(y/n)");
+            String choice = s.nextLine();
+            if ("y".equals(choice)) {
+                return raiseamnt;
+            } else if ("n".equals(choice)) {
+                raise();
+            }
+        }
+        return raiseamnt;
     }
     private static void printHand(deal play1){
         int display = 0;
+        System.out.println("Hand: ");
         for(int x = 0; x < play1.getSize(); x++){
             display = x+1;
             System.out.println(display + ". " + play1.getCard(x));
+        }
+    }
+    private static void getNextPlayer(){
+        int temp;
+        temp = currentPlayer + 1;
+        if(temp == 10){
+            currentPlayer = 1;
+        }else{
+            currentPlayer = temp;
         }
     }
 }

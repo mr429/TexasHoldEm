@@ -4,6 +4,8 @@
 import java.util.ArrayList;
 public class deal {
     private ArrayList<cards> hand;
+    private boolean isFolded = false;
+
     public deal(){
         hand = new ArrayList<>();
     }
@@ -20,5 +22,10 @@ public class deal {
     public int getSize(){
         return hand.size();
     }
-
+    public void setFolded(boolean foldedis){
+        isFolded = foldedis;
+    }
+    public boolean checkFold(){
+        return isFolded;
+    }
 }
