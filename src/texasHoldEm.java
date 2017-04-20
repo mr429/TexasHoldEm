@@ -1,29 +1,21 @@
 /**
  * Created by jonat on 4/3/2017.
  */
-import java.io.File;
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.util.Random;
 import java.io.IOException;
 import static java.lang.Thread.sleep;
-import java.util.InputMismatchException;
+
 import java.util.Scanner;
 
 public class texasHoldEm{
-    private static deal play1 = new deal();
-    private static deal comp1 = new deal();
-    private static deal comp2 = new deal();
-    private static deal comp3 = new deal();
-    private static deal comp4 = new deal();
-    private static deal comp5 = new deal();
-    private static deal comp6 = new deal();
-    private static deal comp7 = new deal();
-    private static deal comp8 = new deal();
+    private static backEnd play1 = new backEnd();
+    private static backEnd comp1 = new backEnd(); //im leaving it. fuck it.
+    private static backEnd comp2 = new backEnd();
+    private static backEnd comp3 = new backEnd();
+    private static backEnd comp4 = new backEnd();
+    private static backEnd comp5 = new backEnd();
+    private static backEnd comp6 = new backEnd();
+    private static backEnd comp7 = new backEnd();
+    private static backEnd comp8 = new backEnd();
     private static cardHandler deck = new cardHandler();
     private static Scanner s = new Scanner(System.in);
     private static Scanner si = new Scanner(System.in);
@@ -124,8 +116,43 @@ public class texasHoldEm{
                     System.out.println("Player 1 folds");
                 }
                 getNextPlayer();
+            }else if(!preFlop){
+                //TODO add code here to do shit postflop.
             }
         }
+        while(currentPlayer == 2){
+            compPlay(comp1, comp1chips, comp1name);
+        }
+        while(currentPlayer == 3){
+            compPlay(comp2, comp2chips, comp2name);
+        }
+        while(currentPlayer == 4){
+            compPlay(comp3, comp3chips, comp3name);
+        }
+        while(currentPlayer == 5){
+            compPlay(comp4, comp4chips, comp4name);
+        }
+        while(currentPlayer == 6){
+            compPlay(comp5, comp5chips, comp5name);
+        }
+        while(currentPlayer == 7){
+            compPlay(comp6, comp6chips, comp6name);
+        }
+        while(currentPlayer == 8){
+            compPlay(comp7, comp7chips, comp7name);
+        }while(currentPlayer == 9){
+            compPlay(comp8, comp8chips, comp8name);
+        }
+    }
+    public static void compPlay(backEnd compHand, int compChips, String compName){ //as of right now this method is gonna have shit tons of ifs.
+        compHandChecker checkie = new compHandChecker(compHand); //yea i named my checker "checkie" wanna fight about it?
+        //oh i have to write out my quality checker before i can go any further.
+
+        //well...im too lazy to do that rn.
+
+        //uh...
+
+        //bye.
     }
     private static int raise(){
         System.out.println("Current Pot: $" + pot + "         Current Chips in Hand: $" + play1chips);
@@ -145,10 +172,10 @@ public class texasHoldEm{
         }
         return raiseamnt;
     }
-    private static void printHand(deal play1){
+    private static void printHand(backEnd play1){
         int display = 0;
         System.out.println("Hand: ");
-        for(int x = 0; x < play1.getSize(); x++){
+        for(int x = 0; x < play1.getSize(); x++){ //oh thats why i needed get size.
             display = x+1;
             System.out.println(display + ". " + play1.getCard(x));
         }
