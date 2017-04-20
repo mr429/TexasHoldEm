@@ -2,11 +2,11 @@
  * Created by jonat on 4/3/2017.
  */
 import java.util.ArrayList;
-public class deal {
+public class backEnd {
     private ArrayList<cards> hand;
     private boolean isFolded = false;
 
-    public deal(){
+    public backEnd(){
         hand = new ArrayList<>();
     }
     public void addCard(cardHandler deck){
@@ -19,9 +19,7 @@ public class deal {
     public cards getCard(int elem){
         return hand.get(elem);
     }
-    public int getSize(){
-        return hand.size();
-    }
+    public int getSize(){return hand.size();}
     public void setFolded(boolean foldedis){
         isFolded = foldedis;
     }
