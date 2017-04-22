@@ -16,6 +16,7 @@ public class texasHoldEm{
     private static backEnd comp6 = new backEnd();
     private static backEnd comp7 = new backEnd();
     private static backEnd comp8 = new backEnd();
+    private static backEnd river = new backEnd();
     private static cardHandler deck = new cardHandler();
     private static Scanner s = new Scanner(System.in);
     private static Scanner si = new Scanner(System.in);
@@ -145,7 +146,7 @@ public class texasHoldEm{
         }
     }
     public static void compPlay(backEnd compHand, int compChips, String compName){ //as of right now this method is gonna have shit tons of ifs.
-        compHandChecker checkie = new compHandChecker(compHand); //yea i named my checker "checkie" wanna fight about it?
+        compHandChecker checkie = new compHandChecker(compHand, river); //yea i named my checker "checkie" wanna fight about it?
         //oh i have to write out my quality checker before i can go any further.
 
         //well...im too lazy to do that rn.
